@@ -8,10 +8,10 @@ bundle install
 rake db:migrate
 ```
 
-## Lead Scores
+## Generate Scores
 
 ```
-rake lead_score:calculate
+rake scores:generate
 ```
 
 This README would normally document whatever steps are necessary to get the
