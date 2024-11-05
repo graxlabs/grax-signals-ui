@@ -1,4 +1,18 @@
-# README
+# GRAX Signals UI
+
+## Setup
+Run postgres in the background.
+
+```
+bundle install
+rake db:migrate
+```
+
+## Generate Scores
+
+```
+rake scores:generate
+```
 
 This README would normally document whatever steps are necessary to get the
 application up and running.
