@@ -1,6 +1,6 @@
 <div class="container py-4">
   <div class="d-flex justify-content-between align-items-center mb-4">
-    <h1 class="h3 mb-0">Scoring Runs</h1>
+    <h1 class="h3 mb-0">Lead Score Runs</h1>
   </div>
 
   <div class="card">
@@ -9,10 +9,13 @@
         <table class="table table-hover align-middle mb-0">
           <thead class="table-light">
             <tr>
-              <th>Started At</th>
+              <th>Name</th>
+              <th>Object</th>
               <th>Status</th>
+              <th>Started At</th>
+              <th>Completed At</th>
               <th>Records Scored</th>
-              <th>Duration (min)</th>
+              <th>Records Updated</th>
               <th>Initiated By</th>
               <th></th>
             </tr>
@@ -20,14 +23,17 @@
           <tbody>
             <% @runs.each do |run| %>
               <tr>
-                <td><%= run.started_at&.strftime("%Y-%m-%d %H:%M:%S") %></td>
+                <td><%= run.name %></td>
+                <td><span class="badge bg-secondary"><%= run.sfdc_object %></span></td>
                 <td>
                   <span class="badge <%= status_badge_class(run.status) %>">
                     <%= run.status %>
                   </span>
                 </td>
+                <td><%= run.started_at&.strftime("%Y-%m-%d %H:%M:%S") %></td>
+                <td><%= run.completed_at&.strftime("%Y-%m-%d %H:%M:%S") %></td>
                 <td><%= number_with_delimiter(run.records_scored) %></td>
-                <td><%= run.duration %></td>
+                <td><%= number_with_delimiter(run.records_updated) %></td>
                 <td><%= run.initiated_by %></td>
                 <td>
                   <%= link_to 'Details', scoring_run_path(run), class: 'btn btn-sm btn-outline-primary' %>

@@ -1,86 +1,103 @@
 <div class="container py-4">
-  <nav aria-label="breadcrumb" class="mb-4">
-    <ol class="breadcrumb">
-      <li class="breadcrumb-item"><%= link_to "Scoring Runs", scoring_runs_path %></li>
-      <li class="breadcrumb-item active">Run Details</li>
-    </ol>
-  </nav>
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h3 mb-0">
+      Score Run: <%= @run.name %>
+    </h1>
+    <%= link_to 'Back to Runs', scoring_runs_path, class: 'btn btn-outline-secondary' %>
+  </div>
 
-  <div class="card shadow-sm">
-    <div class="card-header bg-white py-3">
-      <div class="d-flex justify-content-between align-items-center">
-        <h1 class="h3 mb-0">Scoring Run Details</h1>
-        <span class="badge <%= status_badge_class(@run.status) %> fs-6">
-          <%= @run.status.titleize %>
-        </span>
+  <div class="row g-4">
+    <!-- Main Info Card -->
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="card-title mb-0">Run Details</h5>
+        </div>
+        <div class="card-body">
+          <div class="mb-3">
+            <label class="form-label text-muted">Status</label>
+            <div>
+              <span class="badge <%= status_badge_class(@run.status) %>">
+                <%= @run.status %>
+              </span>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label text-muted">Salesforce Object</label>
+            <div>
+              <span class="badge bg-secondary"><%= @run.sfdc_object %></span>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label text-muted">Started At</label>
+            <div><%= @run.started_at&.strftime("%Y-%m-%d %H:%M:%S") %></div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label text-muted">Completed At</label>
+            <div><%= @run.completed_at&.strftime("%Y-%m-%d %H:%M:%S") %></div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label text-muted">Duration</label>
+            <div>
+              <%= distance_of_time_in_words(@run.started_at, @run.completed_at || Time.current) if @run.started_at %>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label text-muted">Initiated By</label>
+            <div><%= @run.initiated_by %></div>
+          </div>
+        </div>
       </div>
     </div>
 
-    <div class="card-body">
-      <div class="row g-4">
-        <%# Summary Cards %>
-        <div class="col-12">
+    <!-- Results Card -->
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="card-title mb-0">Results</h5>
+        </div>
+        <div class="card-body">
           <div class="row g-3">
-            <div class="col-md-3">
-              <div class="card bg-light border-0">
+            <div class="col-sm-6">
+              <div class="card bg-light">
                 <div class="card-body">
-                  <h6 class="text-muted mb-1">Records Scored</h6>
-                  <h3 class="mb-0"><%= @run.records_scored || 0 %></h3>
+                  <h6 class="card-subtitle mb-2 text-muted">Records Scored</h6>
+                  <h2 class="card-title mb-0"><%= number_with_delimiter(@run.records_scored) %></h2>
                 </div>
               </div>
             </div>
-            <div class="col-md-3">
-              <div class="card bg-light border-0">
+            <div class="col-sm-6">
+              <div class="card bg-light">
                 <div class="card-body">
-                  <h6 class="text-muted mb-1">Records Updated</h6>
-                  <h3 class="mb-0"><%= @run.records_updated %></h3>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-3">
-              <div class="card bg-light border-0">
-                <div class="card-body">
-                  <h6 class="text-muted mb-1">Duration</h6>
-                  <h3 class="mb-0"><%= @run.duration ? "#{@run.duration}m" : "—" %></h3>
+                  <h6 class="card-subtitle mb-2 text-muted">Records Updated</h6>
+                  <h2 class="card-title mb-0"><%= number_with_delimiter(@run.records_updated) %></h2>
                 </div>
               </div>
             </div>
           </div>
+
+          <% if @run.error_message.present? %>
+            <div class="alert alert-danger mt-3">
+              <h6 class="alert-heading">Error Message</h6>
+              <pre class="mb-0"><%= @run.error_message %></pre>
+            </div>
+          <% end %>
         </div>
+      </div>
 
-        <%# Details %>
-        <div class="col-md-6">
-          <div class="card h-100">
-            <div class="card-header bg-white">
-              <h5 class="card-title mb-0">Run Information</h5>
-            </div>
-            <div class="card-body">
-              <dl class="row mb-0">
-                <dt class="col-sm-4 text-muted">Started At</dt>
-                <dd class="col-sm-8"><%= @run.started_at&.strftime("%B %d, %Y %H:%M:%S") || "—" %></dd>
-
-                <dt class="col-sm-4 text-muted">Completed At</dt>
-                <dd class="col-sm-8"><%= @run.completed_at&.strftime("%B %d, %Y %H:%M:%S") || "—" %></dd>
-
-                <dt class="col-sm-4 text-muted">Initiated By</dt>
-                <dd class="col-sm-8"><%= @run.initiated_by || "—" %></dd>
-              </dl>
-            </div>
-          </div>
+      <!-- Query Card -->
+      <div class="card mt-4">
+        <div class="card-header">
+          <h5 class="card-title mb-0">Datalake Query</h5>
         </div>
-
-        <% if @run.error_message.present? %>
-          <div class="col-12">
-            <div class="card border-danger">
-              <div class="card-header bg-danger text-white">
-                <h5 class="card-title mb-0">Error Details</h5>
-              </div>
-              <div class="card-body">
-                <pre class="mb-0 text-danger"><%= @run.error_message %></pre>
-              </div>
-            </div>
-          </div>
-        <% end %>
+        <div class="card-body">
+          <pre class="mb-0 p-3 bg-light rounded"><code><%= @run.query %></code></pre>
+        </div>
       </div>
     </div>
   </div>
