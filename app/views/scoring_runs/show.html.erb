@@ -1,0 +1,60 @@
+<div class="container mx-auto mt-4">
+  <div class="mb-4">
+    <%= link_to "← Back to Scoring Runs", scoring_runs_path, class: "text-blue-500 hover:text-blue-700" %>
+  </div>
+
+  <div class="bg-white shadow rounded-lg p-6">
+    <h1 class="text-2xl font-bold mb-6">Scoring Run Details</h1>
+
+    <div class="grid grid-cols-2 gap-4">
+      <div class="col-span-2 md:col-span-1">
+        <div class="mb-4">
+          <h3 class="font-semibold text-gray-600">Status</h3>
+          <div class="mt-1">
+            <span class="<%= @run.completed? ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800' %> px-2 py-1 rounded-full text-sm">
+              <%= @run.status.titleize %>
+            </span>
+          </div>
+        </div>
+
+        <div class="mb-4">
+          <h3 class="font-semibold text-gray-600">Started At</h3>
+          <p><%= @run.started_at&.strftime("%B %d, %Y %H:%M:%S") %></p>
+        </div>
+
+        <div class="mb-4">
+          <h3 class="font-semibold text-gray-600">Completed At</h3>
+          <p><%= @run.completed_at&.strftime("%B %d, %Y %H:%M:%S") %></p>
+        </div>
+
+        <div class="mb-4">
+          <h3 class="font-semibold text-gray-600">Duration</h3>
+          <p><%= @run.duration ? "#{@run.duration} minutes" : "N/A" %></p>
+        </div>
+      </div>
+
+      <div class="col-span-2 md:col-span-1">
+        <div class="mb-4">
+          <h3 class="font-semibold text-gray-600">Records Scored</h3>
+          <p><%= @run.records_scored || 0 %></p>
+        </div>
+
+        <div class="mb-4">
+          <h3 class="font-semibold text-gray-600">Initiated By</h3>
+          <p><%= @run.initiated_by %></p>
+        </div>
+      </div>
+
+      <% if @run.error_message.present? %>
+        <div class="col-span-2">
+          <div class="mb-4">
+            <h3 class="font-semibold text-gray-600">Error Message</h3>
+            <div class="mt-1 bg-red-50 text-red-700 p-4 rounded">
+              <%= @run.error_message %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
