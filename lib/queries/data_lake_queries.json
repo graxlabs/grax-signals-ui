@@ -1,0 +1,7 @@
+[
+    {
+        "name" : "lead_score",
+        "sfdc_object" : "Lead",
+        "query" : "SELECT ID,Lead_Score__c FROM \"datalake\".\"vw_lead_scoring\""
+    }
+]
