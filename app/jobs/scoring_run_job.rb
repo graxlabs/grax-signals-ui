@@ -13,7 +13,7 @@ class ScoringRunJob < ApplicationJob
         started_at: Time.current
       )
 
-      begin 
+      begin
         puts "Executing Athena Query"
         athena = AthenaQuery.new
         results = athena.execute_query(datalakequery['query'])
@@ -33,7 +33,7 @@ class ScoringRunJob < ApplicationJob
         run.update!(
           status: :completed,
           completed_at: Time.current,
-          records_updated: formatted_results.size 
+          records_updated: formatted_results.size
         )
       rescue => e
         run.update!(

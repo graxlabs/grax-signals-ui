@@ -1,6 +1,7 @@
 class ScoringRunsController < ApplicationController
   def index
-    @runs = ScoringRun.recent #.page(params[:page])
+    @runs = ScoringRun.recent
+    # .page(params[:page])
   end
 
   def show
