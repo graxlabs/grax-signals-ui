@@ -64,3 +64,9 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
 end
+
+gem "langchainrb", "~> 0.19.0"
+
+gem "anthropic", "~> 0.3.2"
+
+gem "colorize", "~> 1.1"

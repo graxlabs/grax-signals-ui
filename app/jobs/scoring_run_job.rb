@@ -18,6 +18,7 @@ class ScoringRunJob < ApplicationJob
         athena = AthenaQuery.new
         results = athena.execute_query(datalakequery['query'])
         formatted_results = results.map do |row|
+          puts row
             {
                 results[0][0] => row[0],
                 results[0][1] => row[1].to_i
