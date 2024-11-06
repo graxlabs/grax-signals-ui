@@ -40,7 +40,24 @@ class AthenaQuery
   end
 
   def download_results(query_execution_id)
-    response = @client.get_query_results({ query_execution_id: query_execution_id })
-    response.result_set.rows.map { |row| row.data.map(&:var_char_value) }
+    all_rows = []
+    next_token = nil
+
+    loop do
+      response = @client.get_query_results({
+        query_execution_id: query_execution_id,
+        next_token: next_token
+      })
+
+      # Extract rows from this page
+      rows = response.result_set.rows.map { |row| row.data.map(&:var_char_value) }
+      all_rows.concat(rows)
+
+      # Check if there are more results
+      next_token = response.next_token
+      break unless next_token
+    end
+
+    all_rows
   end
 end
