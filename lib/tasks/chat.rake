@@ -2,7 +2,9 @@ require 'readline'
 
 namespace :chat do
   desc "Interactive chat with AI assistant for Salesforce data analysis"
-  task :demo => :environment do
+  task :datalake => :environment do
+    Rails.logger.level = Logger::WARN
+    Langchain.logger.level = Logger::WARN
     ChatCLI.new.start
   end
 end
