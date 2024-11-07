@@ -2,7 +2,7 @@ require 'readline'
 
 namespace :chat do
   desc "Interactive chat with AI assistant for Salesforce data analysis"
-  task :datalake => :environment do
+  task datalake: :environment do
     Rails.logger.level = Logger::WARN
     Langchain.logger.level = Logger::WARN
     ChatCLI.new.start
@@ -13,10 +13,10 @@ class ChatCLI
   def initialize
     @llm = Langchain::LLM::Anthropic.new(
       api_key: ENV["ANTHROPIC_API_KEY"],
-      default_options: { max_tokens: 5_000},
+      default_options: { max_tokens: 5_000 },
     )
     @tool = AthenaQueryTool.new
-    @assistant = assistant 
+    @assistant = assistant
   end
 
   def start
@@ -58,11 +58,11 @@ class ChatCLI
       llm: @llm,
       instructions: "You're a helpful AI assistant that helps with analyzing Salesforce data stored in AWS Athena.",
       tools: [@tool]
-    ) 
+    )
     # do |response_chunk|
     #  print(response_chunk.inspect)
     #  print_response(response_chunk)
-    #end
+    # end
   end
 
   def clear_conversation

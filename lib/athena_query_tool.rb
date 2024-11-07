@@ -26,18 +26,18 @@ class AthenaQueryTool
 
   def format_results(results)
     return "No results found" if results.empty?
-    
+
     # Assuming first row contains headers
     headers = results.first
     data = results[1..]
-    
+
     # Format as readable text
     output = []
     data.each do |row|
       row_data = headers.zip(row).map { |header, value| "#{header}: #{value}" }.join(", ")
       output << row_data
     end
-    
+
     output.join("\n")
   end
 end
