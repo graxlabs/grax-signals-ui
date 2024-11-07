@@ -15,7 +15,7 @@ class AthenaQueryTool
     @athena_client = AthenaQuery.new
   end
 
-  def execute_query(query)
+  def execute_query(query:)
     results = @athena_client.execute_query(query)
     format_results(results)
   rescue StandardError => e

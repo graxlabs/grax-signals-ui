@@ -70,3 +70,5 @@ gem "langchainrb", "~> 0.19.0"
 gem "anthropic", "~> 0.3.2"
 
 gem "colorize", "~> 1.1"
+
+gem "csv", "~> 3.3"
