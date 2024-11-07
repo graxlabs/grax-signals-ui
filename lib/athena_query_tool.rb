@@ -15,8 +15,7 @@ class AthenaQueryTool
     @athena_client = AthenaQuery.new
   end
 
-  # Override execute_query to handle the named parameter and format results
-  def execute_query(query:)
+  def execute_query(query)
     results = @athena_client.execute_query(query)
     format_results(results)
   rescue StandardError => e
