@@ -33,8 +33,12 @@ class AthenaQuery
     loop do
       response = @client.get_query_execution({ query_execution_id: query_execution_id })
       state = response.query_execution.status.state
-      break if state == 'SUCCEEDED' || state == 'FAILED'
-      raise 'Query Failed' if state == 'FAILED'
+      break if state == 'SUCCEEDED'
+      if state == 'FAILED'
+        puts response.query_execution.status.state_change_reason
+        puts response.inspect
+        raise 'Query Failed'
+      end
       sleep 2
     end
   end
