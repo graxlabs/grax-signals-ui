@@ -16,9 +16,15 @@ class SalesforceBulk
   end
 
   def update_records(object_type, records)
-    job = @salesforce.update(object_type, records)
-    puts "Salesforce job created with ID: #{job["id"]}"
-    puts "Job status: #{job["state"]}"
-    print job
+    result = @salesforce.update(object_type, records)
+    id = result['id'].first
+    puts "Salesforce job created with ID: #{id}"
+    job = @salesforce.job_from_id(id)
+    while job.check_job_status["numberBatchesInProgress"].first.to_i >= 1
+      puts "waiting for job to complete"
+      job = @salesforce.job_from_id(id)
+      sleep 1
+    end
+    job.check_job_status['numberRecordsProcessed'].first.to_i
   end
 end

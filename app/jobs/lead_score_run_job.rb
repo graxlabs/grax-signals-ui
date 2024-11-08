@@ -32,16 +32,15 @@ class LeadScoreRunJob < ApplicationJob
         end
       end
 
-      puts "Formatted Results: #{formatted_results[0..5].inspect}"
-
       print "\nSending Salesforce Update\n"
       salesforce = SalesforceBulk.new
-      salesforce.update_records('Lead', formatted_results)
+      processed = salesforce.update_records('Lead', formatted_results)
+      puts "Processed #{processed} records"
 
       run.update!(
         status: :completed,
         completed_at: Time.current,
-        records_updated: formatted_results.size
+        records_updated: processed
       )
     rescue => e
       run.update!(
