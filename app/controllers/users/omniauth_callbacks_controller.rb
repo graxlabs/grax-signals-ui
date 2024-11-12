@@ -5,7 +5,8 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     if user.present?
       sign_out_all_scopes
       flash[:success] = t 'devise.omniauth_callbacks.success', kind: 'Google'
-      sign_in_and_redirect user, event: :authentication
+      sign_in user
+      redirect_to scoring_runs_path  # Redirect to scoring runs index
     else
       flash[:alert] = t 'devise.omniauth_callbacks.failure', kind: 'Google', reason: "#{auth.info.email} is not authorized."
       redirect_to new_user_session_path
