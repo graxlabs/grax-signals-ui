@@ -1,18 +1,22 @@
-<h1 class="text-4xl font-bold mb-8">Welcome!</h1>
-
-<% if user_signed_in? %>
-  <div class="mt-4">
-    <p class="text-gray-600 mb-4">Signed in as <%= current_user.email %></p>
-    <%= button_to "Sign out",
-        destroy_user_session_path,
-        method: :delete,
-        class: "px-6 py-2 text-white bg-red-600 hover:bg-red-700 rounded-md" %>
+<div class="container d-flex align-items-center justify-content-center" style="min-height: 80vh;">
+  <div class="text-center">
+    <h1 class="display-4 mb-4">Welcome!</h1>
+    
+    <% if user_signed_in? %>
+      <div class="mt-4">
+        <p class="text-muted mb-4">Signed in as <%= current_user.email %></p>
+        <%= button_to "Sign out",
+            destroy_user_session_path,
+            method: :delete,
+            class: "btn btn-danger" %>
+      </div>
+    <% else %>
+      <%= button_to "Sign in with Google",
+          user_google_oauth2_omniauth_authorize_path,
+          method: :post,
+          data: { turbo: false },
+          authenticity_token: true,
+          class: "btn btn-primary" %>
+    <% end %>
   </div>
-<% else %>
-  <%= button_to "Sign in with Google",
-      user_google_oauth2_omniauth_authorize_path,
-      method: :post,
-      data: { turbo: false },
-      authenticity_token: true,
-      class: "px-6 py-2 text-white bg-blue-600 hover:bg-blue-700 rounded-md" %>
-<% end %>
+</div>
