@@ -11,10 +11,11 @@ class User < ApplicationRecord
       return unless auth.info.email.end_with?(ENV['GOOGLE_DOMAIN'])
     end
 
-    where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
+    new_user = where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
       user.email = auth.info.email
       user.full_name = auth.info.name
       user.avatar_url = auth.info.image
     end
+    new_user
   end
 end
