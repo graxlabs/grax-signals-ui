@@ -1,0 +1,7 @@
+<h1>Welcome!</h1>
+<% if user_signed_in? %>
+  <p>Signed in as <%= current_user.email %></p>
+  <%= button_to "Sign out", destroy_user_session_path, method: :delete %>
+<% else %>
+  <%= button_to "Sign in with Google", user_google_oauth2_omniauth_authorize_path, method: :post, data: { turbo: false } %>
+<% end %>
