@@ -10,16 +10,16 @@ Rails.application.routes.draw do
   get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
   get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
 
-  devise_for :users, 
+  devise_for :users,
     controllers: { omniauth_callbacks: 'users/omniauth_callbacks' },
     skip: [:sessions, :registrations, :passwords] # Skip standard Devise routes
 
   # Override default Devise routes to handle sign in/out
   devise_scope :user do
     # Redirect users to Google sign-in
-    get 'sign_in', to: 'users/omniauth_callbacks#passthru', 
+    get 'sign_in', to: 'users/omniauth_callbacks#passthru',
         defaults: { provider: 'google_oauth2' }, as: :new_user_session
-    
+
     # Sign out path
     delete 'sign_out', to: 'devise/sessions#destroy', as: :destroy_user_session
   end
