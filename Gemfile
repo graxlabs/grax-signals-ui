@@ -72,3 +72,9 @@ gem "anthropic", "~> 0.3.2"
 gem "colorize", "~> 1.1"
 
 gem "csv", "~> 3.3"
+
+gem "devise", "~> 4.9"
+
+gem "omniauth-google-oauth2", "~> 1.2"
+
+gem "omniauth-rails_csrf_protection", "~> 1.0"
