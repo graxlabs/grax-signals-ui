@@ -18,17 +18,29 @@
   <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
       <div class="container-fluid">
-        <%= link_to "GraxSignals", root_path, class: "navbar-brand" %>
-        
-        <% if user_signed_in? %>
-          <div class="navbar-text">
-            <span class="me-3"><%= current_user.email %></span>
-            <%= button_to "Sign out", 
-                destroy_user_session_path, 
-                method: :delete,
-                class: "btn btn-outline-secondary btn-sm" %>
-          </div>
+        <%= link_to root_path, class: "navbar-brand" do %>
+          <%= image_tag "logo.png", height: 30, alt: "GraxSignals Logo", class: "d-inline-block align-text-top" %>
         <% end %>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <%= link_to "Scoring Runs", scoring_runs_path, class: "nav-link" %>
+          </ul>
+
+          <% if user_signed_in? %>
+            <ul class="navbar-nav ms-auto">
+              <li class="nav-item">
+                <span class="nav-link"><%= current_user.email %></span>
+              </li>
+              <li class="nav-item">
+                <%= button_to "Sign out", 
+                    destroy_user_session_path, 
+                    method: :delete,
+                    class: "btn btn-outline-secondary btn-sm mt-1" %>
+              </li>
+            </ul>
+          <% end %>
+        </div>
       </div>
     </nav>
 
