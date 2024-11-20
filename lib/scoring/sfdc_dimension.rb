@@ -11,7 +11,7 @@ module Scoring
             id,
             leadsource LIKE 'SFDC%' AND
             date_diff('day', createddate_ts, current_date) <= 90 as is_sfdc_lead
-          FROM "datalake"."vw_lead_live"
+          FROM lead_live
         SQL
       }
     end
