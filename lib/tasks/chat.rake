@@ -49,7 +49,11 @@ class ChatCLI
 
   def handle_user_input(input)
     print "Assistant: ".blue
-    @assistant.add_message_and_run(content: input, auto_tool_execution: true)
+    begin
+      @assistant.add_message_and_run(content: input, auto_tool_execution: true)
+    rescue => e
+      puts "Error: #{e.message}".red
+    end
     puts @assistant.messages.last.content
   end
 

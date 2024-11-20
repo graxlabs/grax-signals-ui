@@ -3,13 +3,10 @@ require 'csv'
 
 class AthenaQueryTool
   extend Langchain::ToolDefinition
-  extend Forwardable
 
   define_function :execute_query, description: "AthenaQueryTool: Execute a SQL query on AWS Athena" do
     property :query, type: "string", description: "The SQL query to execute on Athena", required: true
   end
-
-  def_delegators :@athena_client, :execute_query
 
   def initialize
     @athena_client = AthenaQuery.new
