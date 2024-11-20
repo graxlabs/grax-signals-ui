@@ -5,7 +5,10 @@ module Scoring
     def initialize
       @dimensions = []
       @base_ctes = {
-        "lead_live" => File.read(Rails.root.join('lib', 'queries', 'lead_live_cte.sql'))
+        "lead_live" => File.read(Rails.root.join('lib', 'queries', 'lead_live_cte.sql')),
+        "task_live" => File.read(Rails.root.join('lib', 'queries', 'task_live_cte.sql')),
+        "campaign_live" => File.read(Rails.root.join('lib', 'queries', 'campaign_live_cte.sql')),
+        "campaignmember_live" => File.read(Rails.root.join('lib', 'queries', 'campaignmember_live_cte.sql')),
       }
     end
 

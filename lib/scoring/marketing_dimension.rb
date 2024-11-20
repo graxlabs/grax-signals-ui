@@ -10,8 +10,8 @@ module Scoring
           SELECT
             V2.leadid,
             count(V2.campaignid) as marketing_count
-          FROM "datalake"."vw_campaign_live" V1
-          INNER JOIN "datalake"."vw_campaignmember_live" V2
+          FROM campaign_live V1
+          INNER JOIN campaignmember_live V2
             ON (V2.campaignid = V1.id)
           WHERE ((V1.call_to_action__c = 'Analyst Report')
                  AND (V2.leadid <> '')

@@ -11,7 +11,7 @@ module Scoring
                       (date_diff('day', vtl.createddate_ts, current_date) <= 90))) as email_count,
             bool_or(((vtl.Subject LIKE '%Deployment%') AND
                      (date_diff('day', vtl.createddate_ts, current_date) <= 180))) as deploy_flag
-          FROM "datalake"."vw_task_live" vtl
+          FROM task_live vtl
           GROUP BY vtl.whoid
         SQL
       }
