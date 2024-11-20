@@ -9,11 +9,7 @@ namespace :scores do
     LeadScoreRunJob.perform_now(args[:initiated_by])
   end
 
-  task previous: :environment do
-    query = File.read(Rails.root.join('lib', 'queries', 'lead_score2.sql'))
-    athena = AthenaQuery.new
-    results = athena.execute_query(query)
-    puts "Results: #{results.size}"
-    puts "Results: #{results[0..5].inspect}"
+  task compare: :environment do
+    LeadScoreCompareJob.perform_now
   end
 end
