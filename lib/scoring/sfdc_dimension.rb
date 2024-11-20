@@ -3,19 +3,19 @@ module Scoring
     def initialize(weight: 300)
       super(weight: weight, name: 'sfdc')
     end
-  
+
     def required_ctes
       {
         "sfdc_leads" => <<~SQL
-          SELECT 
+          SELECT
             id,
-            leadsource LIKE 'SFDC%' AND 
+            leadsource LIKE 'SFDC%' AND
             date_diff('day', createddate_ts, current_date) <= 90 as is_sfdc_lead
           FROM "datalake"."vw_lead_live"
         SQL
       }
     end
-  
+
     def required_joins
       [
         JoinDefinition.new(
@@ -25,7 +25,7 @@ module Scoring
         )
       ]
     end
-  
+
     def score_expression
       "IF(sf.is_sfdc_lead, #{weight}, 0)"
     end
