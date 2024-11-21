@@ -15,3 +15,6 @@ Layout/TrailingEmptyLines:
 
 Layout/SpaceInsideArrayLiteralBrackets:
   Enabled: false
+
+Style/TrailingCommaInHashLiteral:
+  Enabled: false

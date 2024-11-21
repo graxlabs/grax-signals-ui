@@ -49,12 +49,12 @@ FROM
       WHERE ((V1.call_to_action__c = 'Analyst Report') AND (V2.leadid <> '') AND (date_diff('day', v2.createddate_ts, current_date) <= 90))
       GROUP BY V2.leadid
    )  MS ON (LS.id = MS.leadid))
-) a 
+) a
 LEFT JOIN (
   SELECT
     id,
     lead_score__c as CURRENT_LEAD_SCORE
-  FROM "datalake"."vw_lead_live" 
+  FROM "datalake"."vw_lead_live"
 ) L ON (L.Id = a.Id)
 ORDER BY NEW_LEAD_SCORE DESC
 )

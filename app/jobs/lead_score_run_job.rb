@@ -1,6 +1,6 @@
 class LeadScoreRunJob < ApplicationJob
   def perform(initiated_by)
-    query = File.read(Rails.root.join('lib', 'queries', 'lead_score2.sql'))
+    query = Scoring::LeadScoringService.build_query
     run = ScoringRun.create!(
       name: 'lead_score',
       query: query,
