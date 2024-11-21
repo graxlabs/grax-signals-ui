@@ -10,9 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_11_12_154601) do
+ActiveRecord::Schema[7.2].define(version: 2024_11_21_172519) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "lead_score_snapshots", force: :cascade do |t|
+    t.string "lead_id"
+    t.integer "total_score"
+    t.integer "previous_score"
+    t.jsonb "dimension_scores"
+    t.datetime "calculated_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["calculated_at"], name: "index_lead_score_snapshots_on_calculated_at"
+    t.index ["lead_id"], name: "index_lead_score_snapshots_on_lead_id"
+  end
 
   create_table "scoring_runs", force: :cascade do |t|
     t.string "name"
