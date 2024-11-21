@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_11_21_172519) do
+ActiveRecord::Schema[7.2].define(version: 2024_11_21_235211) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -22,8 +22,10 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_21_172519) do
     t.datetime "calculated_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "scoring_run_id"
     t.index ["calculated_at"], name: "index_lead_score_snapshots_on_calculated_at"
     t.index ["lead_id"], name: "index_lead_score_snapshots_on_lead_id"
+    t.index ["scoring_run_id"], name: "index_lead_score_snapshots_on_scoring_run_id"
   end
 
   create_table "scoring_runs", force: :cascade do |t|
@@ -57,4 +59,6 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_21_172519) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
+
+  add_foreign_key "lead_score_snapshots", "scoring_runs"
 end

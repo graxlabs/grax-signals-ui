@@ -1,5 +1,6 @@
 class LeadScoreSnapshot < ApplicationRecord
   belongs_to :lead, primary_key: :id, foreign_key: :lead_id, optional: true
+  belongs_to :scoring_run, optional: true
 
   validates :lead_id, presence: true
   validates :total_score, presence: true
