@@ -1,0 +1,138 @@
+<div class="container mt-4">
+  <div class="row">
+    <div class="col">
+      <h1>Lead <%= @current_snapshot.lead_id %></h1>
+    </div>
+  </div>
+
+  <!-- Overview Card -->
+  <div class="card mb-4">
+    <div class="card-header">
+      <h5 class="card-title mb-0">Overview</h5>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-4">
+          <h2 class="display-4"><%= @current_snapshot.total_score %></h2>
+          <p class="text-muted">Current Score</p>
+        </div>
+        <div class="col-md-4">
+          <% score_change = @current_snapshot.total_score - @current_snapshot.previous_score %>
+          <h2 class="display-4 <%= score_change >= 0 ? 'text-success' : 'text-danger' %>">
+            <%= score_change >= 0 ? '+' : '' %><%= score_change %>
+          </h2>
+          <p class="text-muted">Score Change</p>
+        </div>
+        <div class="col-md-4">
+          <h2 class="display-4"><%= time_ago_in_words(@current_snapshot.calculated_at) %></h2>
+          <p class="text-muted">Last Updated</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Current Score Breakdown -->
+  <div class="card mb-4">
+    <div class="card-header">
+      <h5 class="card-title mb-0">Score Breakdown</h5>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Dimension</th>
+              <th>Score</th>
+              <th>Weight</th>
+              <th>Contribution</th>
+              <th>Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @current_snapshot.dimension_scores.each do |dimension, data| %>
+              <tr>
+                <td><%= dimension.titleize %></td>
+                <td><%= data['score'] %></td>
+                <td><%= data['weight'] %></td>
+                <td><%= data['score'].to_f * data['weight'].to_f %></td>
+                <td>
+                  <%= case dimension
+                      when 'fresh' then "30-day window"
+                      when 'sfdc' then "90-day window"
+                      when 'signin' then "90-day window"
+                      when 'email' then "90-day window"
+                      when 'deploy' then "180-day window"
+                      when 'marketing' then "90-day window"
+                      end %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Historical Scores -->
+  <div class="card">
+    <div class="card-header">
+      <h5 class="card-title mb-0">Score History</h5>
+    </div>
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table mb-0">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Score</th>
+              <th>Change</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @lead_snapshots.each do |snapshot| %>
+              <tr>
+                <td><%= snapshot.calculated_at.strftime("%Y-%m-%d %H:%M") %></td>
+                <td><%= snapshot.total_score %></td>
+                <td>
+                  <% change = snapshot.total_score - snapshot.previous_score %>
+                  <span class="<%= change >= 0 ? 'text-success' : 'text-danger' %>">
+                    <%= change >= 0 ? '+' : '' %><%= change %>
+                  </span>
+                </td>
+                <td>
+                  <button class="btn btn-sm btn-outline-secondary"
+                          data-bs-toggle="collapse"
+                          data-bs-target="#snapshot-<%= snapshot.id %>">
+                    Details
+                  </button>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="4" class="p-0">
+                  <div id="snapshot-<%= snapshot.id %>" class="collapse">
+                    <div class="p-3 bg-light">
+                      <% snapshot.dimension_scores.each do |dimension, data| %>
+                        <div class="row mb-2">
+                          <div class="col-3"><%= dimension.titleize %></div>
+                          <div class="col-3">Score: <%= data['score'] %></div>
+                          <div class="col-3">Weight: <%= data['weight'] %></div>
+                          <div class="col-3">Total: <%= data['score'].to_f * data['weight'].to_f %></div>
+                        </div>
+                      <% end %>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="card-footer">
+      <nav class="d-flex justify-content-center">
+        <%= paginate @lead_snapshots, theme: 'bootstrap-5' %>
+      </nav>
+    </div>
+  </div>
+</div>

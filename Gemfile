@@ -80,3 +80,6 @@ gem "omniauth-google-oauth2", "~> 1.2"
 gem "omniauth-rails_csrf_protection", "~> 1.0"
 
 gem "ostruct", "~> 0.6.1"
+
+gem "kaminari", "~> 1.2"
+gem 'bootstrap5-kaminari-views'
