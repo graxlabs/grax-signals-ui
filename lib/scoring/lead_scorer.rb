@@ -84,7 +84,6 @@ module Scoring
           current_lead_score,
           #{dimension_calculations.map { |d| d[:alias] }.join(",\n        ")}
         FROM lead_scoring
-        ORDER BY new_lead_score DESC
       SQL
     end
   end
