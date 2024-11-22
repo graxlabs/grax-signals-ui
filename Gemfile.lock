@@ -423,8 +423,8 @@ DEPENDENCIES
   dotenv
   importmap-rails
   jbuilder
-  langchainrb (~> 0.19.1)
   kaminari (~> 1.2)
+  langchainrb (~> 0.19.1)
   omniauth-google-oauth2 (~> 1.2)
   omniauth-rails_csrf_protection (~> 1.0)
   ostruct (~> 0.6.1)

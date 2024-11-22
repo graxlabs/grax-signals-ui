@@ -8,6 +8,8 @@ class ScoringRun < ApplicationRecord
     failed: 'failed'
   }
 
+  has_many :lead_score_snapshots
+
   scope :recent, -> { order(created_at: :desc) }
 
   def duration
