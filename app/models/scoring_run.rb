@@ -16,5 +16,4 @@ class ScoringRun < ApplicationRecord
     return nil unless completed_at && started_at
     ((completed_at - started_at) / 1.minute).round(2)
   end
-
 end
