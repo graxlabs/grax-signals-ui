@@ -65,7 +65,7 @@ group :test do
   gem "selenium-webdriver"
 end
 
-gem "langchainrb", "~> 0.19.1"
+gem "langchainrb", "~> 0.19.2"
 
 gem "anthropic", "~> 0.3.2"
 
