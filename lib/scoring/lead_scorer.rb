@@ -65,13 +65,15 @@ module Scoring
           SELECT
             l.id,
             #{dimension_calculations.map { |d| "#{d[:expression]} as #{d[:alias]}" }.join(",\n          ")},
-            (#{dimension_calculations.map { |d| d[:expression] }.join(" + ")}) as new_lead_score,
+            CASE
+              WHEN l.status = 'Disqualified' THEN 0
+              ELSE (#{dimension_calculations.map { |d| d[:expression] }.join(" + ")})
+            END as new_lead_score,
             curr.lead_score__c as current_lead_score
           FROM lead_live l
           #{joins.join("\n        ")}
           LEFT JOIN lead_live curr ON curr.id = l.id
           WHERE l.isconverted_b = false
-          AND l.status <> 'Disqualified'
         )
       SQL
     end
