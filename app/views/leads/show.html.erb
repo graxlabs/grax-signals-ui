@@ -37,39 +37,7 @@
       <h5 class="card-title mb-0">Score Breakdown</h5>
     </div>
     <div class="card-body">
-      <div class="table-responsive">
-        <table class="table">
-          <thead>
-            <tr>
-              <th>Dimension</th>
-              <th>Score</th>
-              <th>Weight</th>
-              <th>Contribution</th>
-              <th>Details</th>
-            </tr>
-          </thead>
-          <tbody>
-            <% @current_snapshot.dimension_scores.each do |dimension, data| %>
-              <tr>
-                <td><%= dimension.titleize %></td>
-                <td><%= data['score'] %></td>
-                <td><%= data['weight'] %></td>
-                <td><%= data['score'].to_f * data['weight'].to_f %></td>
-                <td>
-                  <%= case dimension
-                      when 'fresh' then "30-day window"
-                      when 'sfdc' then "90-day window"
-                      when 'signin' then "90-day window"
-                      when 'email' then "90-day window"
-                      when 'deploy' then "180-day window"
-                      when 'marketing' then "90-day window"
-                      end %>
-                </td>
-              </tr>
-            <% end %>
-          </tbody>
-        </table>
-      </div>
+      <%= render 'dimension_scores_table', dimension_scores: @current_snapshot.dimension_scores %>
     </div>
   </div>
 
@@ -112,14 +80,7 @@
                 <td colspan="4" class="p-0">
                   <div id="snapshot-<%= snapshot.id %>" class="collapse">
                     <div class="p-3 bg-light">
-                      <% snapshot.dimension_scores.each do |dimension, data| %>
-                        <div class="row mb-2">
-                          <div class="col-3"><%= dimension.titleize %></div>
-                          <div class="col-3">Score: <%= data['score'] %></div>
-                          <div class="col-3">Weight: <%= data['weight'] %></div>
-                          <div class="col-3">Total: <%= data['score'].to_f * data['weight'].to_f %></div>
-                        </div>
-                      <% end %>
+                      <%= render 'dimension_scores_table', dimension_scores: snapshot.dimension_scores %>
                     </div>
                   </div>
                 </td>
