@@ -1,0 +1,33 @@
+<div class="table-responsive">
+  <table class="table mb-0">
+    <thead>
+      <tr>
+        <th>Dimension</th>
+        <th>Contribution</th>
+        <th>Weight</th>
+        <th>Score</th>
+        <th>Details</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% dimension_scores.each do |dimension, data| %>
+        <tr>
+          <td><%= dimension.titleize %></td>
+          <td><%= data['score'].to_f / data['weight'].to_f %></td>
+          <td><%= data['weight'] %></td>
+          <td><%= data['score'] %></td>
+          <td>
+            <%= case dimension
+                when 'fresh' then "30-day window"
+                when 'sfdc' then "90-day window"
+                when 'signin' then "90-day window"
+                when 'email' then "90-day window"
+                when 'deploy' then "180-day window"
+                when 'marketing' then "90-day window"
+                end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
