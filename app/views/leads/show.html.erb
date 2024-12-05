@@ -1,3 +1,8 @@
+<% content_for :head do %>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
+<% end %>
+
 <div class="container mt-4">
   <div class="row">
     <div class="col">
@@ -40,6 +45,17 @@
       <%= render 'dimension_scores_table', dimension_scores: @current_snapshot.dimension_scores %>
     </div>
   </div>
+
+  <!-- Score History Chart -->
+  <div class="card mb-4">
+    <div class="card-header">
+      <h5 class="card-title mb-0">Score History Chart</h5>
+    </div>
+    <div class="card-body">
+      <canvas id="scoreChart"></canvas>
+    </div>
+  </div>
+
 
   <!-- Historical Scores -->
   <div class="card">
@@ -97,3 +113,96 @@
     </div>
   </div>
 </div>
+
+<%= javascript_tag do %>
+  document.addEventListener('turbo:load', function() {
+    const ctx = document.getElementById('scoreChart').getContext('2d');
+
+    const chartData = <%= raw @chart_data.to_json %>;
+
+    // Prepare datasets
+    const datasets = [{
+      label: 'Total Score',
+      data: chartData.map(d => ({ x: d.date, y: d.total_score })),
+      borderColor: 'rgb(75, 192, 192)',
+      tension: 0.1
+    }];
+
+    // Add dimension scores
+    if (chartData.length > 0) {
+      const dimensions = Object.keys(chartData[0].dimensions);
+      const colors = [
+        'rgb(255, 99, 132)',   // red
+        'rgb(54, 162, 235)',   // blue
+        'rgb(255, 206, 86)',   // yellow
+        'rgb(75, 192, 192)',   // teal
+        'rgb(153, 102, 255)',  // purple
+        'rgb(255, 159, 64)'    // orange
+      ];
+
+      dimensions.forEach((dimension, index) => {
+        datasets.push({
+          label: dimension,
+          data: chartData.map(d => ({
+            x: d.date,
+            y: parseInt(d.dimensions[dimension].score)
+          })),
+          borderColor: colors[index % colors.length],
+          tension: 0.1
+        });
+      });
+    }
+
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        datasets: datasets
+      },
+      options: {
+        responsive: true,
+        interaction: {
+          intersect: false,
+          mode: 'index'
+        },
+        scales: {
+          x: {
+            type: 'time',
+            time: {
+              unit: 'day'
+            },
+            title: {
+              display: true,
+              text: 'Date'
+            }
+          },
+          y: {
+            title: {
+              display: true,
+              text: 'Score'
+            },
+            beginAtZero: true
+          }
+        },
+        plugins: {
+          legend: {
+            position: 'top',
+            onClick: function(e, legendItem, legend) {
+              const index = legendItem.datasetIndex;
+              const ci = legend.chart;
+              if (ci.isDatasetVisible(index)) {
+                ci.hide(index);
+                legendItem.hidden = true;
+              } else {
+                ci.show(index);
+                legendItem.hidden = false;
+              }
+            }
+          },
+          tooltip: {
+            enabled: true
+          }
+        }
+      }
+    });
+  });
+<% end %>
