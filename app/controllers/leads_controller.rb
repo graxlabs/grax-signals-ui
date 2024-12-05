@@ -20,5 +20,17 @@ class LeadsController < ApplicationController
       .per(10)
 
     @current_snapshot = @lead_snapshots.first
+
+    # Prepare chart data
+    @chart_data = LeadScoreSnapshot
+      .where(lead_id: params[:id])
+      .order(calculated_at: :asc)
+      .map do |snapshot|
+        {
+          date: snapshot.calculated_at,
+          total_score: snapshot.total_score,
+          dimensions: snapshot.dimension_scores
+        }
+      end
   end
 end

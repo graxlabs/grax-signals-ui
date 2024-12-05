@@ -15,7 +15,7 @@ class ChatCLI
       api_key: ENV["ANTHROPIC_API_KEY"],
       default_options: { max_tokens: 5_000 },
     )
-    @tool = AthenaQueryTool.new
+    @athena_tool = AthenaQueryTool.new
     @assistant = assistant
   end
 
@@ -61,7 +61,7 @@ class ChatCLI
     Langchain::Assistant.new(
       llm: @llm,
       instructions: "You're a helpful AI assistant that helps with analyzing Salesforce data stored in AWS Athena.",
-      tools: [@tool]
+      tools: [@athena_tool, Langchain::Tool::FileSystem.new]
     )
     # do |response_chunk|
     #  print(response_chunk.inspect)
