@@ -10,10 +10,10 @@ class DictionaryController < ApplicationController
           )
           client.authenticate!
           
-          query = "SELECT QualifiedApiName, DataType, Label, Description, LastModifiedById, BusinessOwnerId FROM FieldDefinition WHERE EntityDefinition.QualifiedApiName = 'Lead'"
+          query = "SELECT QualifiedApiName, DataType, Label, Description, LastModifiedById, BusinessOwnerId FROM FieldDefinition WHERE EntityDefinition.QualifiedApiName = 'Lead' Order By QualifiedApiName"
           response = client.get("/services/data/v57.0/tooling/query?q=#{URI.encode_www_form_component(query)}")
           @definitions = response.body
-          
+
           # collect BusinessOwnerId values
           business_owner_ids = @definitions.map { |record| record['BusinessOwnerId'] }.uniq
           puts "business_owner_ids: #{business_owner_ids}"
