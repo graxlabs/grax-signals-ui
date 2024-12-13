@@ -27,4 +27,5 @@ Rails.application.routes.draw do
   root "home#index"
   resources :scoring_runs, only: [:index, :show, :create]
   resources :leads, only: [:index, :show]
+  resources :dictionary, only: [:index, :show]
 end

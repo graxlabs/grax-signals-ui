@@ -1,4 +1,4 @@
-ruby "3.3.5"
+ruby "3.3.6"
 
 source "https://rubygems.org"
 
@@ -83,3 +83,4 @@ gem "ostruct", "~> 0.6.1"
 
 gem "kaminari", "~> 1.2"
 gem 'bootstrap5-kaminari-views'
+gem 'tailwindcss-rails'
