@@ -1,11 +1,13 @@
 # GRAX Signals UI
 
 ## Setup
-Run postgres in the background.
+Run postgres in the background and `createdb signals_ui_development`
 
 ```
 bundle install
 rake db:migrate
+bin/rails assets:precompile
+bin/rails server
 ```
 
 ## Generate Scores

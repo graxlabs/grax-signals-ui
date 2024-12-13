@@ -1,0 +1,21 @@
+<div class="overflow-x-auto">
+  <table class="table table-zebra">
+    <!-- head -->
+    <thead>
+      <tr>
+        <th>Field</th>
+        <th>Owner</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @definitions.each do |d| %>
+      <tr>
+        <td class="w-64 truncate"><%= d.QualifiedApiName %></td>
+        <td class="w-64 truncate"><%= @business_owners[d.BusinessOwnerId] %></td>
+        <td class="w-64 truncate"><%= d.Description %></td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

@@ -19,5 +19,8 @@
   },
   "browserslist": [
     "defaults"
-  ]
+  ],
+  "devDependencies": {
+    "daisyui": "^4.12.22"
+  }
 }
