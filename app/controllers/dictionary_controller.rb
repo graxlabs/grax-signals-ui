@@ -9,14 +9,19 @@ class DictionaryController < ApplicationController
             client_secret:  ENV['SFDC_CLIENT_SECRET']
           )
           client.authenticate!
-          
-          query = "SELECT QualifiedApiName, DataType, Label, Description, LastModifiedById, BusinessOwnerId FROM FieldDefinition WHERE EntityDefinition.QualifiedApiName = 'Lead' Order By QualifiedApiName"
+        
+        order = params[:order] || 'QualifiedApiName'
+        where = "EntityDefinition.QualifiedApiName = 'Lead'"
+        if (params[:owned])
+            where +=  params[:owned]== 't' ? " AND BusinessOwnerId != ''" : " AND BusinessOwnerId = ''"
+        end
+
+        query = "SELECT QualifiedApiName, DataType, Label, Description, LastModifiedById, BusinessOwnerId FROM FieldDefinition WHERE #{where} Order By #{order}"
           response = client.get("/services/data/v57.0/tooling/query?q=#{URI.encode_www_form_component(query)}")
           @definitions = response.body
 
           # collect BusinessOwnerId values
           business_owner_ids = @definitions.map { |record| record['BusinessOwnerId'] }.uniq
-          puts "business_owner_ids: #{business_owner_ids}"
 
           # collect Id to Name
           query = "SELECT Id, Name FROM User WHERE Id IN ('#{business_owner_ids.join("','")}')"
