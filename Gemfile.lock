@@ -178,8 +178,9 @@ GEM
       activerecord
       kaminari-core (= 1.2.2)
     kaminari-core (1.2.2)
-    langchainrb (0.19.2)
+    langchainrb (0.19.3)
       baran (~> 0.1.9)
+      csv
       json-schema (~> 4)
       matrix
       pragmatic_segmenter (~> 0.3.0)
@@ -424,7 +425,7 @@ DEPENDENCIES
   importmap-rails
   jbuilder
   kaminari (~> 1.2)
-  langchainrb (~> 0.19.2)
+  langchainrb (~> 0.19.3)
   omniauth-google-oauth2 (~> 1.2)
   omniauth-rails_csrf_protection (~> 1.0)
   ostruct (~> 0.6.1)
